@@ -36,8 +36,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Assets/PostProcessing/Editor/PropertyDrawers/MinDrawer.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/StartCtrl.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" />
       </list>
     </option>
   </component>
@@ -79,7 +79,7 @@
       <option name="presentableId" value="Default" />
       <updated>1700726924395</updated>
       <workItem from="1700726933820" duration="2679000" />
-      <workItem from="1700788253242" duration="2736000" />
+      <workItem from="1700788253242" duration="3376000" />
     </task>
     <servers />
   </component>

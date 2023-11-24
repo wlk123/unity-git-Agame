@@ -36,6 +36,7 @@ public class StartCtrl : MonoBehaviour
         transport.SetConnectionData(_ip.text, 7777);
         
         NetworkManager.Singleton.StartHost();
+        GameManager.Instance.LoadSence("Lobby");
     }
 
     // Update is called once per frame
