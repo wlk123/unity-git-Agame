@@ -30,12 +30,13 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StartCtrl.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" />
         <option value="$PROJECT_DIR$/Assets/PostProcessing/Editor/PropertyDrawers/MinDrawer.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/StartCtrl.cs" />
       </list>
     </option>
@@ -78,7 +79,7 @@
       <option name="presentableId" value="Default" />
       <updated>1700726924395</updated>
       <workItem from="1700726933820" duration="2679000" />
-      <workItem from="1700788253242" duration="1780000" />
+      <workItem from="1700788253242" duration="2736000" />
     </task>
     <servers />
   </component>
