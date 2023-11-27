@@ -9,14 +9,16 @@ public class PlayerListCell : MonoBehaviour
 {
     private TMP_Text _name;
     private TMP_Text _ready;
+    public PlayerInfo PlayerInfo { get; private set; }
     
 
-    public void Initial(ulong PlayerID,bool isReady)
+    public void Initial(PlayerInfo playerInfo)
     {
+        PlayerInfo = playerInfo;
         _name = transform.Find("Name").GetComponent<TMP_Text>();
         _ready = transform. Find("Ready").GetComponent<TMP_Text>();
-        _name.text = "玩家" + PlayerID;
-        _ready.text = isReady ? "准备" : "未准备";
+        _name.text = "玩家" + playerInfo.ID;
+        _ready.text = playerInfo.IsReady ? "准备" : "未准备";
     }
     
     

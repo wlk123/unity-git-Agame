@@ -4,7 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : NetworkBehaviour
+public class GameManager :  NetworkBehaviour
 {
     // Start is called before the first frame update
     public static GameManager Instance;
