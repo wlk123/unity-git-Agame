@@ -11,12 +11,14 @@ public class StartCtrl : MonoBehaviour
     [SerializeField]
     Transform _canvas;
 
+    [SerializeField] private Button joinBtn;
+    [SerializeField] private Button createBtn;
     private TMP_InputField _ip;
     
     void Start()
     {
-        Button createBtn= _canvas.Find("CreateBtn").GetComponent<Button>();
-        Button joinBtn = _canvas.Find("JoinBtn").GetComponent<Button>();
+        //Button createBtn= _canvas.Find("CreateBtn").GetComponent<Button>();
+       // Button joinBtn = _canvas.Find("JoinBtn").GetComponent<Button>();
         createBtn.onClick.AddListener(OnCreateClick);
         joinBtn.onClick.AddListener(OnJoinClick);
         
@@ -25,7 +27,7 @@ public class StartCtrl : MonoBehaviour
 
     private void OnJoinClick()
     {
-        var transport = NetworkManager. Singleton. NetworkConfig.NetworkTransport as UnityTransport;
+        var transport = NetworkManager.Singleton. NetworkConfig.NetworkTransport as UnityTransport;
         transport.SetConnectionData(_ip.text, 7777);
         NetworkManager.Singleton.StartClient();
     }

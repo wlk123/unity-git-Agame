@@ -543,6 +543,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvas: {fileID: 572124865}
+  joinBtn: {fileID: 718073542}
+  createBtn: {fileID: 1281174915}
 --- !u!1 &597084894
 GameObject:
   m_ObjectHideFlags: 0
