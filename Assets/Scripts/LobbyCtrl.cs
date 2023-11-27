@@ -24,7 +24,9 @@ public class LobbyCtrl : NetworkBehaviour
     private GameObject _originCell;
     private Button _startBtn;
     private Toggle _ready;
-    private List<PlayerListCell> _cellList;
+    //private List<PlayerListCell> _cellList;
+    private Dictionary<ulong, PlayerListCell> _cellDictionary;
+
     private Dictionary<ulong, PlayerInfo> _allPlayerInfos;
 
     public override void OnNetworkSpawn()
@@ -40,8 +42,9 @@ public class LobbyCtrl : NetworkBehaviour
         _startBtn = _canvas.Find("StartBtn").GetComponent<Button>();
         _ready = _canvas.Find("Ready").GetComponent<Toggle>();
         _startBtn.onClick.AddListener(OnStartClick);
-        _startBtn.onClick.AddListener(OnReadyToggle);
-        _cellList = new List<PlayerListCell>();
+        _ready.onValueChanged.AddListener(OnReadyToggle);
+        //_cellList = new List<PlayerListCell>();
+        _cellDictionary=new Dictionary<ulong, PlayerListCell>();
         _allPlayerInfos = new Dictionary<ulong, PlayerInfo>();
 
         PlayerInfo playInfo = new PlayerInfo();
@@ -83,6 +86,16 @@ public class LobbyCtrl : NetworkBehaviour
             {
                 AddPlayer(playerInfo);
             }
+            //更改显示层
+            UpdatePlayerCells();
+        }
+    }
+
+    private void UpdatePlayerCells()
+    {
+        foreach (var item in _allPlayerInfos)
+        {
+            _cellDictionary[item.Key].SetReady(item.Value.IsReady);
         }
     }
 
@@ -94,13 +107,45 @@ public class LobbyCtrl : NetworkBehaviour
         clone.transform.SetParent(_content, false);
         PlayerListCell Cell = clone.GetComponent<PlayerListCell>();
         Cell.Initial(playerInfo);
-        _cellList.Add(Cell);
+        
+        _cellDictionary.Add(playerInfo.ID,Cell);
+        //_cellList.Add(Cell);
         clone.SetActive(true);
     }
 
 
-    private void OnReadyToggle()
+    private void OnReadyToggle(bool arg0)
     {
+        _cellDictionary[NetworkManager.LocalClientId].SetReady(arg0);
+        UpdatePlayerInfo(NetworkManager.LocalClientId, arg0);
+
+        if (IsServer)
+        {
+            UpdateAllPlayerInfos();
+        }
+        else
+        {
+            //让服务器去通知其他客户端更新
+            UpdateAllPlayerInfosServerRpc(_allPlayerInfos[NetworkManager.LocalClientId]);
+        }
+        
+       
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void UpdateAllPlayerInfosServerRpc(PlayerInfo player)
+    {
+        _allPlayerInfos[player.ID] = player;
+        _cellDictionary[player.ID].SetReady(player.IsReady);
+        UpdateAllPlayerInfos();
+    }
+    
+
+    void UpdatePlayerInfo(ulong id, bool isReady)
+    {
+        PlayerInfo info = _allPlayerInfos[id];
+        info.IsReady = isReady;
+        _allPlayerInfos[id] = info;
     }
 
     private void OnStartClick()
