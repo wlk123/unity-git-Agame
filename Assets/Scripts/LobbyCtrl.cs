@@ -8,11 +8,13 @@ public struct PlayerInfo : INetworkSerializable
 {
     public ulong ID;
     public bool IsReady;
+    public int gender;
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
         serializer.SerializeValue(ref ID);
         serializer.SerializeValue(ref IsReady);
+        serializer.SerializeValue(ref gender);
     }
 }
 
@@ -23,7 +25,9 @@ public class LobbyCtrl : NetworkBehaviour
     private Transform _content;
     private GameObject _originCell;
     private Button _startBtn;
+
     private Toggle _ready;
+
     //private List<PlayerListCell> _cellList;
     private Dictionary<ulong, PlayerListCell> _cellDictionary;
 
@@ -44,15 +48,69 @@ public class LobbyCtrl : NetworkBehaviour
         _startBtn.onClick.AddListener(OnStartClick);
         _ready.onValueChanged.AddListener(OnReadyToggle);
         //_cellList = new List<PlayerListCell>();
-        _cellDictionary=new Dictionary<ulong, PlayerListCell>();
+        _cellDictionary = new Dictionary<ulong, PlayerListCell>();
         _allPlayerInfos = new Dictionary<ulong, PlayerInfo>();
 
         PlayerInfo playInfo = new PlayerInfo();
         playInfo.ID = NetworkManager.LocalClientId;
         playInfo.IsReady = false;
+        playInfo.gender = 0;
 
         AddPlayer(playInfo);
+
+        Toggle male = _canvas.Find("Gender/Male").GetComponent<Toggle>();
+        Toggle female = _canvas.Find("Gender/Female").GetComponent<Toggle>();
+        male.onValueChanged.AddListener(OnMaleToggle);
+        female.onValueChanged.AddListener(OnFemaleToggle);
+
+
         base.OnNetworkSpawn();
+    }
+
+    private void OnFemaleToggle(bool arg0)
+    {
+        if (arg0)
+        {
+            PlayerInfo playerInfo = _allPlayerInfos[NetworkManager.LocalClientId];
+            playerInfo.gender = 1;
+            _allPlayerInfos[NetworkManager.LocalClientId] = playerInfo;
+            _cellDictionary[NetworkManager.LocalClientId].UpdateInfo(playerInfo);
+            //更新
+            if (IsServer)
+            {
+                UpdateAllPlayerInfos();
+            }
+            else
+            {
+               // UpdatePlayerInfoClientRpc(playerInfo);
+                UpdateAllPlayerInfosServerRpc(playerInfo);
+            }
+            BodyCtrl.Instance.SwitchGender(1);
+        }
+            
+    }
+
+    private void OnMaleToggle(bool arg0)
+    {
+        if (arg0)
+        {
+            PlayerInfo playerInfo = _allPlayerInfos[NetworkManager.LocalClientId];
+            playerInfo.gender = 0;
+            _allPlayerInfos[NetworkManager.LocalClientId] = playerInfo;
+            _cellDictionary[NetworkManager.LocalClientId].UpdateInfo(playerInfo);
+            //更新
+            if (IsServer)
+            {
+                UpdateAllPlayerInfos();
+            }
+            else
+            {
+                //UpdatePlayerInfoClientRpc(playerInfo);
+                UpdateAllPlayerInfosServerRpc(playerInfo);
+            }
+            BodyCtrl.Instance.SwitchGender(0);
+        }
+           
     }
 
     private void OnClientConn(ulong obj)
@@ -86,6 +144,7 @@ public class LobbyCtrl : NetworkBehaviour
             {
                 AddPlayer(playerInfo);
             }
+
             //更改显示层
             UpdatePlayerCells();
         }
@@ -95,7 +154,7 @@ public class LobbyCtrl : NetworkBehaviour
     {
         foreach (var item in _allPlayerInfos)
         {
-            _cellDictionary[item.Key].SetReady(item.Value.IsReady);
+            _cellDictionary[item.Key].UpdateInfo(item.Value);
         }
     }
 
@@ -107,8 +166,8 @@ public class LobbyCtrl : NetworkBehaviour
         clone.transform.SetParent(_content, false);
         PlayerListCell Cell = clone.GetComponent<PlayerListCell>();
         Cell.Initial(playerInfo);
-        
-        _cellDictionary.Add(playerInfo.ID,Cell);
+
+        _cellDictionary.Add(playerInfo.ID, Cell);
         //_cellList.Add(Cell);
         clone.SetActive(true);
     }
@@ -128,18 +187,16 @@ public class LobbyCtrl : NetworkBehaviour
             //让服务器去通知其他客户端更新
             UpdateAllPlayerInfosServerRpc(_allPlayerInfos[NetworkManager.LocalClientId]);
         }
-        
-       
     }
 
     [ServerRpc(RequireOwnership = false)]
     void UpdateAllPlayerInfosServerRpc(PlayerInfo player)
     {
         _allPlayerInfos[player.ID] = player;
-        _cellDictionary[player.ID].SetReady(player.IsReady);
+        _cellDictionary[player.ID].UpdateInfo(player);
         UpdateAllPlayerInfos();
     }
-    
+
 
     void UpdatePlayerInfo(ulong id, bool isReady)
     {
