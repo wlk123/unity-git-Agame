@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public struct PlayerInfo : INetworkSerializable
 {
     public ulong ID;
+    public string name;
     public bool IsReady;
     public int gender;
 
@@ -15,6 +17,8 @@ public struct PlayerInfo : INetworkSerializable
         serializer.SerializeValue(ref ID);
         serializer.SerializeValue(ref IsReady);
         serializer.SerializeValue(ref gender);
+        serializer.SerializeValue(ref name);
+      
     }
 }
 
@@ -33,6 +37,8 @@ public class LobbyCtrl : NetworkBehaviour
 
     private Dictionary<ulong, PlayerInfo> _allPlayerInfos;
 
+    private TMP_InputField _name;
+
     public override void OnNetworkSpawn()
     {
         //如果是服务端（主机）监听其他玩家加入
@@ -47,12 +53,17 @@ public class LobbyCtrl : NetworkBehaviour
         _ready = _canvas.Find("Ready").GetComponent<Toggle>();
         _startBtn.onClick.AddListener(OnStartClick);
         _ready.onValueChanged.AddListener(OnReadyToggle);
-        //_cellList = new List<PlayerListCell>();
+        
+        _name = _canvas.Find("Name").GetComponent<TMP_InputField>();
+        _name.onEndEdit.AddListener(OnEndEdit);
+        
         _cellDictionary = new Dictionary<ulong, PlayerListCell>();
         _allPlayerInfos = new Dictionary<ulong, PlayerInfo>();
 
         PlayerInfo playInfo = new PlayerInfo();
         playInfo.ID = NetworkManager.LocalClientId;
+        playInfo.name = "玩家" + playInfo.ID;
+        _name.text = playInfo.name;
         playInfo.IsReady = false;
         playInfo.gender = 0;
 
@@ -65,6 +76,28 @@ public class LobbyCtrl : NetworkBehaviour
 
 
         base.OnNetworkSpawn();
+    }
+
+    private void OnEndEdit(string arg0)
+    {
+        if (string.IsNullOrEmpty(arg0))
+        {
+            return;
+        }
+
+        PlayerInfo playerInfo = _allPlayerInfos[NetworkManager.LocalClientId];
+        playerInfo.name = arg0;
+        _allPlayerInfos[NetworkManager.LocalClientId] = playerInfo;
+        _cellDictionary[NetworkManager.LocalClientId].UpdateInfo(playerInfo);
+        if (IsServer)
+        {
+            UpdateAllPlayerInfos();
+        }
+        else
+        {
+            // UpdatePlayerInfoClientRpc(playerInfo);
+            UpdateAllPlayerInfosServerRpc(playerInfo);
+        }
     }
 
     private void OnFemaleToggle(bool arg0)
@@ -117,6 +150,7 @@ public class LobbyCtrl : NetworkBehaviour
     {
         PlayerInfo playerInfo = new PlayerInfo();
         playerInfo.ID = obj;
+        playerInfo.name = "玩家" + obj;
         playerInfo.IsReady = false;
         AddPlayer(playerInfo);
         UpdateAllPlayerInfos();
