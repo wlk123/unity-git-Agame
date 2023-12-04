@@ -8,13 +8,32 @@ public class GameManager :  NetworkBehaviour
 {
     // Start is called before the first frame update
     public static GameManager Instance;
+
+    public Dictionary<ulong, PlayerInfo> AllplayerInfos { get; private set; }
+    
     
     void Start()
     {
         Instance = this;
         DontDestroyOnLoad(gameObject);
         SceneManager.LoadScene(1);
+        AllplayerInfos=new Dictionary<ulong, PlayerInfo>();
     }
+
+    public void StartGame(Dictionary<ulong, PlayerInfo> playerInfos)
+    {
+        AllplayerInfos = playerInfos;
+        UpdateAllPlayerInfos();
+    }
+
+    void UpdateAllPlayerInfos()
+    {
+        foreach (var item in AllplayerInfos)
+        {
+            
+        }
+    }
+    
 
     public void LoadSence(string SenceName)
     {

@@ -18,7 +18,6 @@ public struct PlayerInfo : INetworkSerializable
         serializer.SerializeValue(ref IsReady);
         serializer.SerializeValue(ref gender);
         serializer.SerializeValue(ref name);
-      
     }
 }
 
@@ -53,10 +52,10 @@ public class LobbyCtrl : NetworkBehaviour
         _ready = _canvas.Find("Ready").GetComponent<Toggle>();
         _startBtn.onClick.AddListener(OnStartClick);
         _ready.onValueChanged.AddListener(OnReadyToggle);
-        
+
         _name = _canvas.Find("Name").GetComponent<TMP_InputField>();
         _name.onEndEdit.AddListener(OnEndEdit);
-        
+
         _cellDictionary = new Dictionary<ulong, PlayerListCell>();
         _allPlayerInfos = new Dictionary<ulong, PlayerInfo>();
 
@@ -115,12 +114,12 @@ public class LobbyCtrl : NetworkBehaviour
             }
             else
             {
-               // UpdatePlayerInfoClientRpc(playerInfo);
+                // UpdatePlayerInfoClientRpc(playerInfo);
                 UpdateAllPlayerInfosServerRpc(playerInfo);
             }
+
             BodyCtrl.Instance.SwitchGender(1);
         }
-            
     }
 
     private void OnMaleToggle(bool arg0)
@@ -141,9 +140,9 @@ public class LobbyCtrl : NetworkBehaviour
                 //UpdatePlayerInfoClientRpc(playerInfo);
                 UpdateAllPlayerInfosServerRpc(playerInfo);
             }
+
             BodyCtrl.Instance.SwitchGender(0);
         }
-           
     }
 
     private void OnClientConn(ulong obj)
@@ -158,11 +157,16 @@ public class LobbyCtrl : NetworkBehaviour
 
     void UpdateAllPlayerInfos()
     {
+        bool cango = true;
         foreach (var item in _allPlayerInfos)
         {
+            if (!item.Value.IsReady)
+                cango = false;
             //通知其他客户端把没有的player加进去。
             UpdatePlayerInfoClientRpc(item.Value);
         }
+
+        _startBtn.gameObject.SetActive(cango);
     }
 
     [ClientRpc]
@@ -241,6 +245,8 @@ public class LobbyCtrl : NetworkBehaviour
 
     private void OnStartClick()
     {
+        GameManager.Instance.StartGame(_allPlayerInfos);
+        GameManager.Instance.LoadSence("Game");
     }
 
     // Update is called once per frame
