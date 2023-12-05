@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Editor/View/BehaviourTreeWindows.uss?fileID=7433441132597879392&amp;guid=d2930e9f2bae7ae4b9b67f733e4efff8&amp;type=3#BehaviourTreeWindows" />
+    <Editor.View.SplitView fixed-pane-initial-dimension="300">
+        <ui:VisualElement name="left" style="flex-grow: 1;">
+            <Editor.View.InspectorView style="flex-grow: 1; background-image: none;">
+                <ui:Label tabindex="-1" text="检查器" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 20px; color: rgb(0, 0, 0); -unity-text-align: upper-center; -unity-font: url(&apos;project://database/Assets/AlimamaDongFangDaKai-Regular.ttf?fileID=12800000&amp;guid=9cb8a4a846481604d8a023470a947156&amp;type=3#AlimamaDongFangDaKai-Regular&apos;); -unity-font-style: bold; background-image: none; -unity-text-outline-width: 0;" />
+            </Editor.View.InspectorView>
+        </ui:VisualElement>
+        <ui:VisualElement name="right" style="flex-grow: 1;">
+            <Editor.View.TreeView focusable="true" style="flex-grow: 1;" />
+        </ui:VisualElement>
+    </Editor.View.SplitView>
+</ui:UXML>

@@ -18,6 +18,8 @@ namespace BehaviorTree
         private bool _isActive;
         [LabelText("启用对象"),SerializeField,FoldoutGroup("@NodeName")]
         private GameObject _gameObject;
+        public new static string NodeEditorName="（节点）设置显示";
+       
         public override BehaviorState Tick()
         {
             _gameObject.SetActive(_isActive);

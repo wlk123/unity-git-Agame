@@ -16,6 +16,9 @@ namespace BehaviorTree
         public float timer;
         
         private float _currentTimer;
+        
+        public new static string NodeEditorName="（节点）延迟";
+
         public override BehaviorState Tick()
         {
             _currentTimer += Time.deltaTime;
@@ -34,6 +37,8 @@ namespace BehaviorTree
     {
         [LabelText("是否活动"),FoldoutGroup("@NodeName"),SerializeField]
         private  bool _isActive;
+        public new static string NodeEditorName="（节点）定选";
+
 
         public override BehaviorState Tick()
         {

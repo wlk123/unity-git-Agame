@@ -18,8 +18,11 @@ namespace BehaviorTree
     {
         [FoldoutGroup("@NodeName"), LabelText("名称")]
         public string NodeName;
+        
+        public static string NodeEditorName="基础根节点";
 
         public abstract BehaviorState Tick();
+        
     }
 
     //组成节点
@@ -27,6 +30,10 @@ namespace BehaviorTree
     {
         [FoldoutGroup("@NodeName"), LabelText("子节点")]
         public List<BTNodeBase> ChildNodes = new List<BTNodeBase>();
+
+        public new static string NodeEditorName="组合节点";
+      
+        
     }
 
     //条件节点
@@ -34,11 +41,14 @@ namespace BehaviorTree
     {
         [FoldoutGroup("@NodeName"), LabelText("子节点")]
         public BTNodeBase ChildNode;
+        public new static string NodeEditorName="条件节点";
+       
     }
 
     //行为节点
     public abstract class BtActionNode : BTNodeBase
     {
+        public new static string NodeEditorName="行为节点";
     }
      
     //顺序节点
@@ -47,6 +57,9 @@ namespace BehaviorTree
         private int _index;
         [FoldoutGroup("@NodeName"),SerializeField,LabelText("失败重置")]
         private bool _isReset=true;
+        public new static string NodeEditorName="顺序节点";
+       
+        
         public override BehaviorState Tick()
         {
             var state = ChildNodes[_index].Tick();
@@ -72,6 +85,7 @@ namespace BehaviorTree
             }
             return BehaviorState.未执行;
         }
+
     }
     
     //选择节点
@@ -81,6 +95,8 @@ namespace BehaviorTree
 
         [FoldoutGroup("@NodeName"),SerializeField,LabelText("失败重置")]
         private bool _isReset=true;
+        public new static string NodeEditorName="选择节点";
+        
         public override BehaviorState Tick()
         {
             var state = ChildNodes[_index].Tick();
