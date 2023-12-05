@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ContentModelStore">
     <e p="C:\UnityAgame" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Animation" t="Include" />
@@ -30,10 +32,52 @@
           <e p="Scenes" t="Include" />
           <e p="Textures" t="Include" />
         </e>
+        <e p="Plugins" t="Include">
+          <e p="Sirenix" t="Include">
+            <e p="Assemblies" t="Include">
+              <e p="link.xml" t="Include" />
+              <e p="NoEditor" t="Include" />
+              <e p="NoEmitAndNoEditor" t="Include" />
+              <e p="Sirenix.OdinInspector.Attributes.xml" t="Include" />
+              <e p="Sirenix.OdinInspector.Editor.xml" t="Include" />
+              <e p="Sirenix.Serialization.Config.xml" t="Include" />
+              <e p="Sirenix.Serialization.xml" t="Include" />
+              <e p="Sirenix.Utilities.Editor.xml" t="Include" />
+              <e p="Sirenix.Utilities.xml" t="Include" />
+            </e>
+            <e p="Demos" t="Include" />
+            <e p="Odin Inspector" t="Include">
+              <e p="Assets" t="Include">
+                <e p="Editor" t="Include">
+                  <e p="Bootstrap License.txt" t="Include" />
+                </e>
+              </e>
+              <e p="Config" t="Include">
+                <e p="Editor" t="Include" />
+                <e p="Resources" t="Include">
+                  <e p="Sirenix" t="Include" />
+                </e>
+              </e>
+              <e p="Modules" t="Include">
+                <e p="Unity.Mathematics" t="Include">
+                  <e p="manifest.txt" t="Include" />
+                  <e p="MathematicsDrawers.cs" t="Include" />
+                  <e p="Sirenix.OdinInspector.Modules.UnityMathematics.asmdef" t="Include" />
+                </e>
+              </e>
+            </e>
+            <e p="Readme.txt" t="Include" />
+          </e>
+        </e>
         <e p="Prefab" t="Include" />
         <e p="Render" t="Include" />
         <e p="Scenes" t="Include" />
         <e p="Scripts" t="Include">
+          <e p="BehaviorTree" t="Include">
+            <e p="AllBtAction.cs" t="Include" />
+            <e p="AllBtPrecondition.cs" t="Include" />
+            <e p="BTNodeBase.cs" t="Include" />
+          </e>
           <e p="BodyCtrl.cs" t="Include" />
           <e p="DialogCell.cs" t="Include" />
           <e p="GameCtrl.cs" t="Include" />
@@ -47,6 +91,7 @@
         <e p="Settings" t="Include">
           <e p="Scenes" t="Include" />
         </e>
+        <e p="TestBT.cs" t="Include" />
         <e p="TextMesh Pro" t="Include">
           <e p="Documentation" t="Include" />
           <e p="Fonts" t="Include">
@@ -83,9 +128,11 @@
             <e p="EmojiOne.json" t="Include" />
           </e>
         </e>
+        <e p="Tools" t="Include" />
       </e>
       <e p="obj" t="ExcludeRecursive" />
       <e p="Packages" t="ExcludeRecursive" />
+      <e p="Sirenix.OdinInspector.Modules.UnityMathematics.csproj" t="IncludeRecursive" />
       <e p="Temp\Bin" t="ExcludeRecursive" />
       <e p="UnityAgame.sln" t="IncludeFlat" />
     </e>
