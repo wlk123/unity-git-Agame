@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using BehaviorTree;
 using PlasticGui.Gluon.WorkspaceWindow.Views.IncomingChanges;
+using Sirenix.Utilities;
 using UnityEditor;
 using UnityEditor.Compilation;
 using UnityEditor.Experimental.GraphView;
@@ -14,6 +16,11 @@ namespace Editor.View
 {
     public class BehaviourTreeWindows : EditorWindow
     {
+        //利用单例来定位
+        public static BehaviourTreeWindows windowsRoot;
+
+        public TreeView treeView;
+        
         [SerializeField] private VisualTreeAsset m_VisualTreeAsset = default;
 
         [MenuItem("Tools/BehaviourTreeWindows")]
@@ -21,16 +28,76 @@ namespace Editor.View
         {
             BehaviourTreeWindows wnd = GetWindow<BehaviourTreeWindows>();
             wnd.titleContent = new GUIContent("BehaviourTreeWindows");
+            
         }
 
         public void CreateGUI()
         {
+            //根据ID去拿取行为树数据，使用接口传输
+            int id= BTSetting.GetSetting().TreeID;
+            var iGetBt=EditorUtility.InstanceIDToObject(id) as IGetBt;
+            
+            windowsRoot = this;
             VisualElement root = rootVisualElement;
             var visualTree =
                 AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/View/BehaviourTreeWindows.uxml");
             var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/View/BehaviourTreeWindows.uss");
             visualTree.CloneTree(root);
+            
+            //根据数据动态加载树
+            treeView = root.Q<TreeView>();
+            if (iGetBt==null)return;
+            if (iGetBt.GetRoot()==null)return;
+            CreatRoot(iGetBt.GetRoot());
+            //调用所有的节点连接自己的子集
+            treeView.nodes.OfType<NodeView>().ForEach(n => n.LinkLine());
+
         }
+
+        /// <summary>
+        /// 通过创建根节点创建树
+        /// </summary>
+        /// <param name="rootNode"></param>
+        public void CreatRoot(BTNodeBase rootNode)
+        {
+            if (rootNode==null)return;
+            NodeView nodeView = new NodeView(rootNode);
+            nodeView.SetPosition(new Rect(rootNode.Position, Vector2.one));
+            treeView.AddElement(nodeView);
+            treeView.NodeViews.Add(rootNode.Guid,nodeView);
+            //treeView.RootNode = nodeView;
+            switch (rootNode)
+            {
+                case BtComposite composite:
+                    composite.ChildNodes.ForEach(CreatChild);
+                    break;
+                case BtPrecondition precondition:
+                    CreatChild(precondition.ChildNode);
+                    break;
+            }
+        }
+        
+        public void CreatChild(BTNodeBase nodeData)
+        {
+            if (nodeData==null)return;
+            NodeView nodeView = new NodeView(nodeData);
+            nodeView.SetPosition(new Rect(nodeData.Position, Vector2.one));
+            treeView.AddElement(nodeView);
+            treeView.NodeViews.Add(nodeData.Guid,nodeView);
+            
+            switch (nodeData)
+            {
+                case BtComposite composite:
+                    //遍历调用
+                    composite.ChildNodes.ForEach(CreatChild);
+                    break;
+                case BtPrecondition precondition:
+                    CreatChild(precondition.ChildNode);
+                    break;
+            }
+
+        }
+        
     }
 
     public class RightlickMenu : ScriptableObject, ISearchWindowProvider

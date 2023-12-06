@@ -16,8 +16,14 @@ namespace BehaviorTree
     //基础构造
     public abstract class BTNodeBase
     {
+        [FoldoutGroup("@NodeName"), LabelText("节点唯一标识")]
+        public string Guid;//唯一标识
+        [FoldoutGroup("@NodeName"), LabelText("节点位置")]
+        public Vector2 Position;
+        
         [FoldoutGroup("@NodeName"), LabelText("名称")]
         public string NodeName;
+
         
         public static string NodeEditorName="基础根节点";
 
@@ -122,4 +128,26 @@ namespace BehaviorTree
             return BehaviorState.失败;
         }
     }
+    
+    
+    [CreateAssetMenu]
+    public class BTSetting : SerializedScriptableObject
+    {
+        public int TreeID;
+
+        public static BTSetting GetSetting()
+        {
+            return Resources.Load<BTSetting>("BTSetting");
+        }
+        
+#if UNITY_EDITOR
+        public IGetBt GetTree()=> UnityEditor.EditorUtility.InstanceIDToObject(TreeID) as IGetBt;
+        public void SetRoot(BTNodeBase rootNode) => GetTree().SetRoot(rootNode);
+#endif
+      
+        
+    }
+    
+   
+    
 }

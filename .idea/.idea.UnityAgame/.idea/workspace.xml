@@ -21,12 +21,12 @@
   <component name="ChangeListManager">
     <list default="true" id="19663551-8e91-422c-bdaf-11619ecdf412" name="默认更改列表" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityAgame/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityAgame/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityAgame/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityAgame/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.UnityAgame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnityAgame/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/View/BehaviourTreeWindows.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/View/BehaviourTreeWindows.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/View/TreeView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/View/TreeView.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Game.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BehaviorTree/AllBtAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BehaviorTree/AllBtAction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BehaviorTree/AllBtPrecondition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BehaviorTree/AllBtPrecondition.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/BehaviorTree/BTNodeBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BehaviorTree/BTNodeBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TestBT.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TestBT.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +46,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Editor/View/BehaviourTreeWindows.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/AF8ACF00-CF07-4A9D-8C2F-2190D6BD1428/46/d9011ab3/Dictionary`2.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Editor/View/InspectorView.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Editor/EditorToolsEx/BTEx.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@1.7.0/Runtime/Core/NetworkManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/834B2DED-5DAD-441E-8C7A-4287897D63C7/8c/cc6ed36c/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/Bee/fullprofile.json" root0="FORCE_HIGHLIGHTING" />
@@ -54,6 +55,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Editor/View/TreeView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/RectMask2D.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/BehaviorTree/BTNodeBase.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/883CFE2A-E01F-491F-AAE3-1CDF96C3B1AE/70/a3a205ca/Edge.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerListCell.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.core@14.0.9/Editor/Lighting/ProbeVolume/ProbeGIBaking.Invalidation.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Editor/View/SplitView.cs" root0="FORCE_HIGHLIGHTING" />
@@ -62,6 +64,7 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.burst@1.8.9/Runtime/Intrinsics/Arm/NEON_ctor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameCtrl.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.visualstudio@2.0.22/Editor/SimpleJSON.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Editor/View/NodeView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/BehaviorTree/AllBtPrecondition.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.core@14.0.9/Editor/Analytics/AnalyticsUtils.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerInputManager.cs" root0="FORCE_HIGHLIGHTING" />
@@ -87,15 +90,18 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/GameCtrl.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/DialogCell.cs" />
-        <option value="$PROJECT_DIR$/Assets/TestBT.cs" />
         <option value="$PROJECT_DIR$/Assets/Editor/View/SplitView.cs" />
         <option value="$PROJECT_DIR$/Assets/Editor/View/InspectorView.cs" />
         <option value="$PROJECT_DIR$/Assets/Editor/View/BehaviourTreeWindows.uss" />
-        <option value="$PROJECT_DIR$/Assets/Editor/View/TreeView.cs" />
-        <option value="$PROJECT_DIR$/Assets/Editor/View/BehaviourTreeWindows.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/BehaviorTree/BTNodeBase.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/BehaviorTree/AllBtAction.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/BehaviorTree/AllBtPrecondition.cs" />
+        <option value="$PROJECT_DIR$/Assets/Editor/EditorToolsEx/BTSetting.cs" />
+        <option value="$PROJECT_DIR$/Assets/Editor/View/BehaviourTreeWindows.cs" />
+        <option value="$PROJECT_DIR$/Assets/TestBT.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/BehaviorTree/BTNodeBase.cs" />
+        <option value="$PROJECT_DIR$/Assets/Editor/View/NodeView.cs" />
+        <option value="$PROJECT_DIR$/Assets/Editor/EditorToolsEx/BTEx.cs" />
+        <option value="$PROJECT_DIR$/Assets/Editor/View/TreeView.cs" />
       </list>
     </option>
   </component>
@@ -121,10 +127,10 @@
       <option name="pid" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="15600">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="15600" />
+      <option name="pid" />
       <method v="2" />
     </configuration>
   </component>
@@ -145,6 +151,7 @@
       <workItem from="1701156948571" duration="1188000" />
       <workItem from="1701670930687" duration="6629000" />
       <workItem from="1701743801146" duration="17366000" />
+      <workItem from="1701832880071" duration="19099000" />
     </task>
     <servers />
   </component>
@@ -237,10 +244,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="648" y="220" key="RiderGenerateDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1701763973174" />
-    <state x="92" y="92" width="1736" height="856" key="VCS.FileHistoryDialog" timestamp="1701769062168">
+    <state x="92" y="92" width="1736" height="856" key="VCS.FileHistoryDialog" timestamp="1701852821584">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="92" y="92" width="1736" height="856" key="VCS.FileHistoryDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1701769062168" />
+    <state x="92" y="92" width="1736" height="856" key="VCS.FileHistoryDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1701852821584" />
     <state x="629" y="121" width="807" height="798" key="find.popup" timestamp="1700818270772">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

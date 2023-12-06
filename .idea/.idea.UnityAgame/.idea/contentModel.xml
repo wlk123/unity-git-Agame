@@ -9,13 +9,16 @@
       <e p="Assets" t="Include">
         <e p="Animation" t="Include" />
         <e p="Editor" t="Include">
-          <e p="EditorToolsEx" t="Include" />
+          <e p="EditorToolsEx" t="Include">
+            <e p="BTEx.cs" t="Include" />
+          </e>
           <e p="Resources" t="Include" />
           <e p="View" t="Include">
             <e p="BehaviourTreeWindows.cs" t="Include" />
             <e p="BehaviourTreeWindows.uss" t="Include" />
             <e p="BehaviourTreeWindows.uxml" t="Include" />
             <e p="InspectorView.cs" t="Include" />
+            <e p="NodeView.cs" t="Include" />
             <e p="SplitView.cs" t="Include" />
             <e p="TreeView.cs" t="Include" />
           </e>
