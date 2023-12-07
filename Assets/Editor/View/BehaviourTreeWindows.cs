@@ -8,7 +8,9 @@ using Sirenix.Utilities;
 using UnityEditor;
 using UnityEditor.Compilation;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using Assembly = System.Reflection.Assembly;
 
@@ -20,6 +22,7 @@ namespace Editor.View
         public static BehaviourTreeWindows windowsRoot;
 
         public TreeView treeView;
+        public InspectorView inspectorView;
         
         [SerializeField] private VisualTreeAsset m_VisualTreeAsset = default;
 
@@ -31,11 +34,13 @@ namespace Editor.View
             
         }
 
+        private void OnDestroy() => Save();
+
         public void CreateGUI()
         {
             //根据ID去拿取行为树数据，使用接口传输
             int id= BTSetting.GetSetting().TreeID;
-            var iGetBt=EditorUtility.InstanceIDToObject(id) as IGetBt;
+            var iGetBt=BTSetting.GetSetting().GetTree();
             
             windowsRoot = this;
             VisualElement root = rootVisualElement;
@@ -46,12 +51,37 @@ namespace Editor.View
             
             //根据数据动态加载树
             treeView = root.Q<TreeView>();
+            inspectorView = root.Q<InspectorView>();
             if (iGetBt==null)return;
-            if (iGetBt.GetRoot()==null)return;
-            CreatRoot(iGetBt.GetRoot());
+            if (iGetBt.GetTree()?.rootNode==null)return;
+            CreatRoot(iGetBt.GetTree().rootNode);
             //调用所有的节点连接自己的子集
             treeView.nodes.OfType<NodeView>().ForEach(n => n.LinkLine());
+            
+            var tree= iGetBt.GetTree().ViewTransform;
+            treeView.viewTransform.position=tree.position;
+            treeView.viewTransform.scale=tree.scale;
 
+        }
+
+        #region 快捷键参数
+
+        public  void Save()
+        { 
+           var tree= BTSetting.GetSetting().GetTree().GetTree().ViewTransform;
+          // tree=new GraphViewTransform();
+           tree.position=treeView.viewTransform.position;
+           tree.scale=treeView.viewTransform.scale;
+            
+            EditorSceneManager.SaveScene(SceneManager.GetActiveScene());
+        }
+
+        #endregion
+
+
+        private void OnInspectorUpdate()
+        {
+            treeView.nodes.OfType<NodeView>().ForEach(n => n.UpdateData());
         }
 
         /// <summary>

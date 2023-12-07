@@ -2,9 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace BehaviorTree
 {
+
+    public class GraphViewTransform
+    {
+        public Vector3 position;
+        public Quaternion rotation;
+        public Vector3 scale;
+        public Matrix4x4 matrix;
+    }
+   
+    public class BehaviorTreeData
+    {
+        public BTNodeBase rootNode;
+        public GraphViewTransform ViewTransform=new GraphViewTransform();
+    }
+    
     public enum BehaviorState
     {
         未执行 = 0,
@@ -12,7 +28,8 @@ namespace BehaviorTree
         失败,
         执行中
     }
-
+    
+    
     //基础构造
     public abstract class BTNodeBase
     {
@@ -28,6 +45,10 @@ namespace BehaviorTree
         public static string NodeEditorName="基础根节点";
 
         public abstract BehaviorState Tick();
+
+        public BehaviorState NodeState=BehaviorState.未执行;
+        
+        public void SetGuid()=> Guid = System.Guid.NewGuid().ToString();
         
     }
 
@@ -77,19 +98,25 @@ namespace BehaviorTree
                     {
                         if (_isReset)
                             _index = 0;
-                        return BehaviorState.成功;
+                        NodeState = BehaviorState.成功;
+                        return NodeState;
                     }
-                    return BehaviorState.执行中;
+                    NodeState = BehaviorState.执行中;
+                    return NodeState;
                 case BehaviorState.失败:
                     //重置，失败跳出
                     if (_isReset)
                         _index = 0;
-                    return BehaviorState.失败;
+                    NodeState = BehaviorState.失败;
+                    return NodeState;
                 case BehaviorState.执行中:
+                    NodeState = state;
                     return state;
                 
             }
-            return BehaviorState.未执行;
+
+            NodeState = BehaviorState.未执行;
+            return NodeState;
         }
 
     }
@@ -111,42 +138,29 @@ namespace BehaviorTree
                 case BehaviorState.成功:
                     if (_isReset)
                         _index=0;
-                    return state;
+                    NodeState = state;
+                    return NodeState;
                 case BehaviorState.失败:
                     _index++;
                     if (_index>=ChildNodes.Count)
                     {
                         if (_isReset)
                             _index=0;
-                        return BehaviorState.失败;
+                        NodeState = BehaviorState.失败;
+                        return NodeState;
                     }
                     break;
                 default:
-                    return state;
+                    NodeState = state;
+                    return NodeState;
                 
             }
-            return BehaviorState.失败;
+            NodeState =  BehaviorState.失败;
+            return NodeState;
         }
     }
     
-    
-    [CreateAssetMenu]
-    public class BTSetting : SerializedScriptableObject
-    {
-        public int TreeID;
-
-        public static BTSetting GetSetting()
-        {
-            return Resources.Load<BTSetting>("BTSetting");
-        }
-        
-#if UNITY_EDITOR
-        public IGetBt GetTree()=> UnityEditor.EditorUtility.InstanceIDToObject(TreeID) as IGetBt;
-        public void SetRoot(BTNodeBase rootNode) => GetTree().SetRoot(rootNode);
-#endif
-      
-        
-    }
+   
     
    
     

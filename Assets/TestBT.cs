@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using BehaviorTree;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using TreeEditor;
 using UnityEngine;
-using BehaviorTree;
-
 
 public class TestBT : SerializedMonoBehaviour,IGetBt
 {
     [OdinSerialize] 
-    public BTNodeBase rootNode;
+    private BehaviorTreeData TreeData=new BehaviorTreeData();
    
 
     // Start is called before the first frame update
@@ -22,7 +21,7 @@ public class TestBT : SerializedMonoBehaviour,IGetBt
     // Update is called once per frame
     void Update()
     {
-        rootNode?.Tick();
+        TreeData.rootNode?.Tick();
     }
 
 #if UNITY_EDITOR
@@ -33,16 +32,50 @@ public class TestBT : SerializedMonoBehaviour,IGetBt
         BTSetting.GetSetting().TreeID = GetInstanceID();
         UnityEditor.EditorApplication.ExecuteMenuItem("Tools/BehaviourTreeWindows");
     }
+
+    [Button]
+    public void InitGuid()
+    {
+        if ( TreeData.rootNode != null)
+        {
+             SetNodeGuid(TreeData.rootNode);
+             Debug.Log("开始初始化");
+        }
+           
+    }
+   
     
 #endif
+    public void SetNodeGuid(BTNodeBase Node)
+    {
+        Debug.Log(Node.GetType().ToString()+"开始"+Node.Guid);
+        if (string.IsNullOrEmpty(Node.Guid))
+        {
+            Node.SetGuid();
+            Debug.Log(Node.GetType().ToString()+"结束"+Node.Guid);
+        }
+        switch (Node)
+        {
+            case BtComposite composite:
+                composite.ChildNodes.ForEach(n=>
+                {
+                    SetNodeGuid(n);
+                });
+                break;
+            case BtPrecondition precondition:
+                SetNodeGuid(precondition.ChildNode);
+                break;
+            
+        }
+    }
 
-    public BTNodeBase GetRoot() => rootNode;
-    public void SetRoot(BTNodeBase rootNode) => this.rootNode=rootNode;
+    public BehaviorTreeData GetTree() => TreeData;
+    public void SetRoot(BTNodeBase rootNode) => this.TreeData.rootNode=rootNode;
 
 }
 
 public interface IGetBt
 {
-    BTNodeBase GetRoot();
+    BehaviorTreeData GetTree();
     void SetRoot(BTNodeBase rootNode);
 }

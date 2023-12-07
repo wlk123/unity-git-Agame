@@ -24,7 +24,8 @@ namespace BehaviorTree
         {
             _gameObject.SetActive(_isActive);
             Debug.Log(message: NodeName + (_isActive?"节点 启用了":"节点 禁用了"));
-            return BehaviorState.成功;
+            NodeState = BehaviorState.成功;
+            return NodeState;
         }
     }
 }

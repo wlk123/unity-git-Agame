@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BehaviorTree;
+using Sirenix.Utilities;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 namespace Editor.View
@@ -16,6 +18,7 @@ namespace Editor.View
     public class TreeView : GraphView
     {
         public Dictionary<string,NodeView> NodeViews=new Dictionary<string, NodeView>();
+        public List<BTNodeBase> copyNodes = new List<BTNodeBase>();
         
         public new class UxmlFactory : UxmlFactory<TreeView,UxmlTraits>{}
 
@@ -31,6 +34,68 @@ namespace Editor.View
             styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/View/BehaviourTreeWindows.uss"));
             GraphViewMenu();
             graphViewChanged += OnGraphViewChanged;
+            RegisterCallback<MouseEnterEvent>(MouseEnterControl);
+            RegisterCallback<KeyDownEvent>(KeyDownEventCallback);
+        }
+
+        private void KeyDownEventCallback(KeyDownEvent evt)
+        {
+            if (evt.keyCode==KeyCode.Tab)
+            {
+                evt.StopPropagation();
+            }
+
+            if (!evt.ctrlKey) return;
+            switch (evt.keyCode)
+            {
+                case KeyCode.S:
+                    BehaviourTreeWindows.windowsRoot.Save();
+                    evt.StopPropagation();
+                    break;
+                case KeyCode.E:
+                    evt.StopPropagation();
+                    break;
+                case KeyCode.X:
+                    evt.StopPropagation();
+                    break;
+                case KeyCode.C:
+                    Copy();
+                    evt.StopPropagation();
+                    break;
+                case KeyCode.V:
+                    Paste();
+                    evt.StopPropagation();
+                    break;
+            }
+
+
+        }
+        #region 快捷键参数
+
+        void Copy()=>copyNodes =  selection.OfType<NodeView>().Select(n => n.NodeData).ToList().CloneData();
+       
+
+        void Paste()
+        {
+            var nodePaste=new List<NodeView>();
+            for (int i = 0; i < copyNodes.Count; i++)
+            {
+                var  nodeView=new NodeView(copyNodes[i]);
+                nodeView.SetPosition(new Rect(copyNodes[i].Position,Vector2.one));
+                this.AddElement(nodeView);
+                nodePaste.Add(nodeView);
+                NodeViews.Add(copyNodes[i].Guid,nodeView);
+            }
+
+            nodePaste.ForEach(n => n.LinkLine());
+            copyNodes = copyNodes.CloneData();
+        }
+        
+        #endregion
+
+        private void MouseEnterControl(MouseEnterEvent evt)
+        {
+            BehaviourTreeWindows.windowsRoot.inspectorView.UpdateViewDate();
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange gvc)
@@ -69,12 +134,14 @@ namespace Editor.View
         private void CreateNode(Type type,Vector2 pos)
         {
               BTNodeBase nodeDate = Activator.CreateInstance(type) as BTNodeBase;
-              nodeDate.Guid = System.Guid.NewGuid().ToString();
+              if (string.IsNullOrEmpty(nodeDate.Guid))
+                  nodeDate.SetGuid();
               
               NodeView node=new NodeView(nodeDate);
               node.title = type.GetField("NodeEditorName").GetValue(null).ToString();
               node.SetPosition(new Rect(pos,Vector2.one));
               NodeViews.Add(nodeDate.Guid,node);
+            
               this.AddElement(node);
         }
         private void GraphViewMenu()

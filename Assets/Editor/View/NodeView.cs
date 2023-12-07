@@ -64,10 +64,10 @@ namespace Editor.View
                     composite.ChildNodes.ForEach(n=>
                     {
                         graphView.AddElement(PortLink(OutputPort, graphView.NodeViews[n.Guid].InputPort));
-                       
                     });
                     break;
                 case BtPrecondition precondition:
+                    if (precondition.ChildNode == null) return;
                     graphView.AddElement(PortLink(OutputPort, graphView.NodeViews[precondition.ChildNode.Guid].InputPort));
                     break;
             }
@@ -96,7 +96,20 @@ namespace Editor.View
             base.SetPosition(newPos);
             NodeData.Position = new Vector2(newPos.xMin, newPos.yMin);
         }
-        
+
+        public override void OnSelected()
+        {
+            base.OnSelected();
+            BehaviourTreeWindows.windowsRoot.inspectorView.UpdateViewDate();
+        }
+
+        //实时刷新
+        public void UpdateData()
+        {
+            title = NodeData.NodeName+"::" +NodeData.NodeState+
+                    "\n【"+NodeData.GetType().GetField("NodeEditorName").GetValue(null)+"】";
+        }
+
 
         //重载加号运算符
         public static Port operator +(NodeView view)

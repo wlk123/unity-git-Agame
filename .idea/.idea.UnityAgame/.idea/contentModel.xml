@@ -12,7 +12,6 @@
           <e p="EditorToolsEx" t="Include">
             <e p="BTEx.cs" t="Include" />
           </e>
-          <e p="Resources" t="Include" />
           <e p="View" t="Include">
             <e p="BehaviourTreeWindows.cs" t="Include" />
             <e p="BehaviourTreeWindows.uss" t="Include" />
@@ -87,12 +86,15 @@
         </e>
         <e p="Prefab" t="Include" />
         <e p="Render" t="Include" />
+        <e p="Resources" t="Include" />
         <e p="Scenes" t="Include" />
         <e p="Scripts" t="Include">
           <e p="BehaviorTree" t="Include">
             <e p="AllBtAction.cs" t="Include" />
             <e p="AllBtPrecondition.cs" t="Include" />
             <e p="BTNodeBase.cs" t="Include" />
+            <e p="BTSetting.cs" t="Include" />
+            <e p="InspectorViewData.cs" t="Include" />
           </e>
           <e p="BodyCtrl.cs" t="Include" />
           <e p="DialogCell.cs" t="Include" />

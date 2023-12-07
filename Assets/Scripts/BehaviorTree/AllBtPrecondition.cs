@@ -26,10 +26,12 @@ namespace BehaviorTree
             {
                 _currentTimer = 0f;
                 ChildNode.Tick();
-                return BehaviorState.成功;
+                NodeState = BehaviorState.成功;
+                return NodeState;
             }
 
-            return  BehaviorState.执行中;
+            NodeState = BehaviorState.执行中;
+            return NodeState;
         }
     }
     
@@ -38,17 +40,18 @@ namespace BehaviorTree
         [LabelText("是否活动"),FoldoutGroup("@NodeName"),SerializeField]
         private  bool _isActive;
         public new static string NodeEditorName="（节点）定选";
-
-
+        
         public override BehaviorState Tick()
         {
             if (_isActive)
             {
-                return ChildNode.Tick();
+                 NodeState =ChildNode.Tick();
+                 return NodeState;
             }
             else
             {
-                return BehaviorState.失败;
+                NodeState = BehaviorState.失败;
+                return NodeState;
             }
             
         }
